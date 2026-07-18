@@ -9,7 +9,7 @@ spaceTimes = []
 
 def pressed(key):
     global ignore
-    #print(key)
+    #print(key)  o
 def released(key):
     """if key == Key.space:
         print("key released")
@@ -27,7 +27,8 @@ def win32_event_filter(msg, data):
         listener.suppress_event()
 listener = keyboard.Listener(on_press=pressed,on_release=released,win32_event_filter=win32_event_filter)
 listener.start()
-chars = ["space","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+chars = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "space"]
+keyss = {}
 times = 0
 hold = False
 actions = []
@@ -42,8 +43,19 @@ def holding(secs):
 root = tk.Tk()
 root.title("onekeykeyboard")
 root.attributes('-topmost', True)
-label = tk.Label(root, text="intalizing", font=("Arial", 40))
-label.pack()
+root.geometry("1000x400")
+rows = 0
+collumns = 0
+for letter in chars:
+    keyss[letter] = tk.Label(root, text=letter, font=("Arial", 40))
+    if letter == "a" or letter == "z" or letter == "space":
+        rows += 1
+        collumns = 0
+    if letter == "space":
+        keyss[letter].grid(row=rows, column=collumns, padx=5, columnspan=7)
+    keyss[letter].grid(row=rows, column=collumns, padx=5)
+    root.columnconfigure(chars.index(letter), weight=1)
+    collumns += 1
 def checkkeypress(): 
     global times, hold, holdingMaybe, happening
     happening = len(spaceTimes) > 0
@@ -75,12 +87,17 @@ i = 1
 
 def keyboardthing():
     global actions, hold, i, ignore
+    if i > 27:
+            i = 1
+    if i < 1:
+            i = 27
     if hold:
         i += 1
-        if i > 27:
-            i = 1
         root.after(100, keyboardthing)
-    label.config(text=chars[i-1])
+    for letter in chars:
+        keyss[letter].config(bg=root.cget('bg'))
+    keyss[chars[i-1]].config(bg="green")
+
     if not hold:
         if len(actions) > 0:
             if actions[-1][0] == 0:
@@ -94,14 +111,15 @@ def keyboardthing():
     
 def keyboardthing2():
     global actions, hold, i, ignore
-    print("testing hold")
+    #print("testing hold")
     if hold: 
         #print("leave")
         root.after(100, keyboardthing)
         return
     if actions[-1][1] == 1:
         ignore = True
-        if i == 1:
+        print(i)
+        if i == 27:
             control.press(Key.space)
             control.release(Key.space)
         else:
