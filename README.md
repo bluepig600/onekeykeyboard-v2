@@ -1,4 +1,5 @@
 # OneKeyKeyboard
+*Now with full keyboard shown!!!!*
 !!Must be run on windows computer!!
 
 This is a keyboard python application that lets you type the full alphabet using only the space bar.
