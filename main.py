@@ -43,10 +43,18 @@ def holding(secs):
 root = tk.Tk()
 root.title("onekeykeyboard")
 root.attributes('-topmost', True)
-root.geometry("1000x400")
+root.geometry("600x300")
+offsets = {
+    "q": 0,
+    "a": 1,
+    "z": 2,
+    "space": 4
+}
 rows = 0
 collumns = 0
 for letter in chars:
+    if letter in offsets:
+        collumns = offsets[letter]
     keyss[letter] = tk.Label(root, text=letter, font=("Arial", 40))
     if letter == "a" or letter == "z" or letter == "space":
         rows += 1
@@ -96,7 +104,7 @@ def keyboardthing():
         root.after(100, keyboardthing)
     for letter in chars:
         keyss[letter].config(bg=root.cget('bg'))
-    keyss[chars[i-1]].config(bg="green")
+    keyss[chars[i-1]].config(bg="red")
 
     if not hold:
         if len(actions) > 0:
@@ -117,6 +125,7 @@ def keyboardthing2():
         root.after(100, keyboardthing)
         return
     if actions[-1][1] == 1:
+        keyss[chars[i-1]].config(bg="green")
         ignore = True
         print(i)
         if i == 27:
