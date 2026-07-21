@@ -127,7 +127,7 @@ def keyboardthing2():
     if actions[-1][1] == 1:
         keyss[chars[i-1]].config(bg="green")
         ignore = True
-        print(i)
+        #print(i)
         if i == 27:
             control.press(Key.space)
             control.release(Key.space)
